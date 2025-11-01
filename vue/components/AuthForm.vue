@@ -83,14 +83,14 @@ const handleSubmit = async () => {
       {{ error }}
     </div>
 
-    <button type="submit" :disabled="loading">
+    <UButton type="submit" :disabled="loading">
       {{ loading ? "Processing..." : isLogin ? "Login" : "Sign Up" }}
-    </button>
+    </UButton>
   </form>
 
-  <button @click="toggleMode" :disabled="loading">
+  <UButton @click="toggleMode" :disabled="loading">
     {{
       isLogin ? "Need an account? Sign up" : "Already have an account? Login"
     }}
-  </button>
+  </UButton>
 </template>

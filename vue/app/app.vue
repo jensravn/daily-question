@@ -24,7 +24,7 @@ const handleLogout = async () => {
     <!-- Show main content when logged in -->
     <div v-else>
       <h1>Welcome, {{ user.email }}</h1>
-      <button @click="handleLogout">Logout</button>
+      <UButton @click="handleLogout">Logout</UButton>
 
       <p>You are successfully logged in!</p>
       <p>This is where your daily question feature will go.</p>
