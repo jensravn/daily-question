@@ -15,6 +15,7 @@ This is a monorepo containing a **Nuxt 4** application (Vue 3) for a daily quest
 ## Package Management & Dependencies
 
 - **Package Manager**: `pnpm` (required - not npm or yarn)
+- **Adding Packages**: Always use `pnpm add --save-exact <package>` to install with exact versions (no `^` or `~`)
 - **Nuxt Version**: 4.2.0 (latest major version)
 - **Vue Version**: 3.5.22
 - All package management commands must be run from the `vue/` directory
