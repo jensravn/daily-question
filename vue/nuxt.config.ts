@@ -6,6 +6,10 @@ export default defineNuxtConfig({
   css: ["~/assets/css/main.css"],
   ssr: false,
 
+  routeRules: {
+    "/": { prerender: true },
+  },
+
   vuefire: {
     auth: {
       enabled: true,

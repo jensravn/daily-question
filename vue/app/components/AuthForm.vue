@@ -57,9 +57,7 @@ const handleSubmit = async () => {
 <template>
   <div class="space-y-6">
     <div class="text-center">
-      <h1 class="text-3xl font-bold">
-        {{ isLogin ? "Welcome Back" : "Create Account" }}
-      </h1>
+      <h1 class="text-3xl font-bold">{{ isLogin ? "Welcome Back" : "Create Account" }}</h1>
       <p class="text-sm text-muted mt-2">
         {{ isLogin ? "Sign in to your account" : "Sign up to get started" }}
       </p>
@@ -117,9 +115,7 @@ const handleSubmit = async () => {
         color="neutral"
       >
         {{
-          isLogin
-            ? "Need an account? Sign up"
-            : "Already have an account? Sign in"
+          isLogin ? "Need an account? Sign up" : "Already have an account? Sign in"
         }}
       </UButton>
     </div>
