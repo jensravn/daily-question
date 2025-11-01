@@ -1,12 +1,7 @@
 <script setup lang="ts">
-interface Option {
-  id: string;
-  text: string;
-}
-
 interface Props {
   question: string;
-  options: Option[];
+  options: string[];
   selectedOption?: string;
   disabled?: boolean;
 }
@@ -68,7 +63,7 @@ const handleOptionSelect = (optionId: string) => {
             </div>
 
             <!-- Option text -->
-            <span class="text-base">{{ option.text }}</span>
+            <span class="text-base">{{ option }}</span>
           </div>
         </button>
       </div>

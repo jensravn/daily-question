@@ -1,41 +1,51 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { doc } from "firebase/firestore";
+import { computed, ref, watch } from "vue";
+import { useDocument, useFirestore } from "vuefire";
 
 interface Option {
   id: string;
   text: string;
 }
 
-const question = ref("What is your preferred programming language?");
-const options = ref<Option[]>([
-  { id: "1", text: "TypeScript" },
-  { id: "2", text: "JavaScript" },
-  { id: "3", text: "Python" },
-  { id: "4", text: "Go" },
-]);
+interface Question {
+  question: string;
+  options: string[];
+}
+
+const db = useFirestore()!;
+
+const topicId = "LskYjWe3SaDIPd5B69a6";
+const questionId = "q8cUeqS2b8VgASKhLj19";
+
+const questionDocRef = doc(db, "topics", topicId, "questions", questionId);
+const questionData = useDocument<Question>(questionDocRef);
+
+const isLoading = ref(true);
+const hasError = ref(false);
+const errorMessage = ref("");
+
+watch(
+  questionData,
+  (newData) => {
+    isLoading.value = false;
+    if (newData === null) {
+      hasError.value = true;
+      errorMessage.value =
+        "Permission denied. Please check Firestore security rules.";
+    }
+  },
+  { immediate: true }
+);
+
+const question = computed(
+  () => questionData.value?.question || "Loading question..."
+);
+const options = computed(() => questionData.value?.options || []);
 
 const selectedOption = ref<string>();
+const selectedOptions = ref<string[]>([]);
 const isSubmitted = ref(false);
-
-const handleSelect = (optionId: string) => {
-  selectedOption.value = optionId;
-};
-
-const handleSubmit = () => {
-  if (selectedOption.value) {
-    isSubmitted.value = true;
-  }
-};
-
-const handleReset = () => {
-  selectedOption.value = undefined;
-  isSubmitted.value = false;
-};
-
-const getSelectedOptionText = () => {
-  const option = options.value.find((opt) => opt.id === selectedOption.value);
-  return option?.text || "";
-};
 </script>
 
 <template>
@@ -47,42 +57,38 @@ const getSelectedOptionText = () => {
         <p class="text-muted mt-2">Answer today's question</p>
       </div>
 
-      <!-- Question Card -->
+      <!-- Error state -->
+      <UCard v-if="hasError" class="border-2 border-red-500">
+        <div class="space-y-4">
+          <div class="flex items-start gap-3">
+            <UIcon
+              name="i-lucide-alert-circle"
+              class="text-red-500 text-2xl shrink-0 mt-1"
+            />
+            <div>
+              <h3 class="text-lg font-semibold text-red-600">Error</h3>
+              <p class="text-muted mt-1">{{ errorMessage }}</p>
+            </div>
+          </div>
+        </div>
+      </UCard>
+
       <QuestionCard
+        v-else-if="options.length > 0"
         :question="question"
         :options="options"
-        :selected-option="selectedOption"
+        v-model="selectedOption"
         :disabled="isSubmitted"
-        @select="handleSelect"
       />
 
-      <!-- Submit Button -->
-      <div v-if="!isSubmitted" class="flex justify-center">
-        <UButton :disabled="!selectedOption" size="xl" @click="handleSubmit">
+      <div
+        v-if="!isSubmitted && options.length > 0"
+        class="flex justify-center"
+      >
+        <UButton :disabled="selectedOptions.length === 0" size="xl">
           Submit Answer
         </UButton>
       </div>
-
-      <!-- Result -->
-      <UCard v-if="isSubmitted" class="bg-primary/10">
-        <div class="text-center space-y-4">
-          <div>
-            <UIcon name="i-lucide-check-circle" class="text-primary text-5xl" />
-          </div>
-          <div>
-            <h3 class="text-xl font-semibold">Answer Submitted!</h3>
-            <p class="text-muted mt-2">
-              You selected:
-              <span class="font-semibold text-primary">{{
-                getSelectedOptionText()
-              }}</span>
-            </p>
-          </div>
-          <UButton variant="subtle" @click="handleReset">
-            Answer Again
-          </UButton>
-        </div>
-      </UCard>
     </div>
   </div>
 </template>

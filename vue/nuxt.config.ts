@@ -22,5 +22,8 @@ export default defineNuxtConfig({
       storageBucket: process.env.NUXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
       messagingSenderId: process.env.NUXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
     },
+    firestore: {
+      enabled: true,
+    },
   },
 });

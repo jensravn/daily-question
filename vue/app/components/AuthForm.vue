@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import {
-  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
+import { ref } from "vue";
 
 const auth = useFirebaseAuth()!;
 
@@ -89,7 +89,7 @@ const handleSubmit = async () => {
 
         <UAlert
           v-if="error"
-          color="red"
+          color="error"
           variant="subtle"
           :title="error"
           icon="i-lucide-alert-circle"
