@@ -55,54 +55,42 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <div class="auth-container">
-    <div class="auth-card">
-      <h1>{{ isLogin ? "Login" : "Sign Up" }}</h1>
+  <h1>{{ isLogin ? "Login" : "Sign Up" }}</h1>
 
-      <form @submit.prevent="handleSubmit">
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input
-            id="email"
-            v-model="email"
-            type="email"
-            required
-            placeholder="Enter your email"
-            :disabled="loading"
-          />
-        </div>
+  <form @submit.prevent="handleSubmit">
+    <label for="email">Email</label>
+    <input
+      id="email"
+      v-model="email"
+      type="email"
+      required
+      placeholder="Enter your email"
+      :disabled="loading"
+    />
 
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input
-            id="password"
-            v-model="password"
-            type="password"
-            required
-            placeholder="Enter your password"
-            minlength="6"
-            :disabled="loading"
-          />
-        </div>
+    <label for="password">Password</label>
+    <input
+      id="password"
+      v-model="password"
+      type="password"
+      required
+      placeholder="Enter your password"
+      minlength="6"
+      :disabled="loading"
+    />
 
-        <div v-if="error" class="error-message">
-          {{ error }}
-        </div>
-
-        <button type="submit" :disabled="loading" class="submit-btn">
-          {{ loading ? "Processing..." : isLogin ? "Login" : "Sign Up" }}
-        </button>
-      </form>
-
-      <div class="toggle-mode">
-        <button @click="toggleMode" :disabled="loading" class="link-btn">
-          {{
-            isLogin
-              ? "Need an account? Sign up"
-              : "Already have an account? Login"
-          }}
-        </button>
-      </div>
+    <div v-if="error">
+      {{ error }}
     </div>
-  </div>
+
+    <button type="submit" :disabled="loading">
+      {{ loading ? "Processing..." : isLogin ? "Login" : "Sign Up" }}
+    </button>
+  </form>
+
+  <button @click="toggleMode" :disabled="loading">
+    {{
+      isLogin ? "Need an account? Sign up" : "Already have an account? Login"
+    }}
+  </button>
 </template>

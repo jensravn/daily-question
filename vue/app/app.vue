@@ -16,24 +16,18 @@ const handleLogout = async () => {
 
 <template>
   <UApp>
-    <div>
-      <NuxtRouteAnnouncer />
+    <NuxtRouteAnnouncer />
 
-      <!-- Show auth form when not logged in -->
-      <AuthForm v-if="!user" />
+    <!-- Show auth form when not logged in -->
+    <AuthForm v-if="!user" />
 
-      <!-- Show main content when logged in -->
-      <div v-else class="app-content">
-        <div class="header">
-          <h1>Welcome, {{ user.email }}</h1>
-          <button @click="handleLogout" class="logout-btn">Logout</button>
-        </div>
+    <!-- Show main content when logged in -->
+    <div v-else>
+      <h1>Welcome, {{ user.email }}</h1>
+      <button @click="handleLogout">Logout</button>
 
-        <div class="main-content">
-          <p>You are successfully logged in!</p>
-          <p>This is where your daily question feature will go.</p>
-        </div>
-      </div>
+      <p>You are successfully logged in!</p>
+      <p>This is where your daily question feature will go.</p>
     </div>
   </UApp>
 </template>
