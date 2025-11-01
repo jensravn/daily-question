@@ -35,7 +35,7 @@ useHead({
       <UHeader>
         <template #left>
           <NuxtLink to="/">
-            <AppLogo class="w-auto h-6 shrink-0" />
+            <div class="text-2xl font-bold">Daily Question</div>
           </NuxtLink>
         </template>
 
@@ -46,7 +46,6 @@ useHead({
 
           <UButton
             @click="handleSignOut"
-            icon="i-lucide-log-out"
             aria-label="Sign Out"
             color="neutral"
             variant="ghost"

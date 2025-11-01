@@ -1,73 +1,88 @@
+<script setup lang="ts">
+import { ref } from "vue";
+
+interface Option {
+  id: string;
+  text: string;
+}
+
+const question = ref("What is your preferred programming language?");
+const options = ref<Option[]>([
+  { id: "1", text: "TypeScript" },
+  { id: "2", text: "JavaScript" },
+  { id: "3", text: "Python" },
+  { id: "4", text: "Go" },
+]);
+
+const selectedOption = ref<string>();
+const isSubmitted = ref(false);
+
+const handleSelect = (optionId: string) => {
+  selectedOption.value = optionId;
+};
+
+const handleSubmit = () => {
+  if (selectedOption.value) {
+    isSubmitted.value = true;
+  }
+};
+
+const handleReset = () => {
+  selectedOption.value = undefined;
+  isSubmitted.value = false;
+};
+
+const getSelectedOptionText = () => {
+  const option = options.value.find((opt) => opt.id === selectedOption.value);
+  return option?.text || "";
+};
+</script>
+
 <template>
-  <div>
-    <UPageHero
-      title="Daily Question"
-      description="Answer a new question every day and share your thoughts with the community."
-      :links="[
-        {
-          label: 'Answer Today\'s Question',
-          to: '/question',
-          trailingIcon: 'i-lucide-arrow-right',
-          size: 'xl',
-        },
-        {
-          label: 'View on GitHub',
-          to: 'https://github.com/jensravn/daily-question',
-          target: '_blank',
-          icon: 'i-simple-icons-github',
-          size: 'xl',
-          color: 'neutral',
-          variant: 'subtle',
-        },
-      ]"
-    />
+  <div class="container max-w-2xl mx-auto py-8 px-4">
+    <div class="space-y-6">
+      <!-- Header -->
+      <div class="text-center">
+        <h1 class="text-4xl font-bold">Daily Question</h1>
+        <p class="text-muted mt-2">Answer today's question</p>
+      </div>
 
-    <UPageSection
-      id="features"
-      title="How it works"
-      description="A simple and engaging way to share your opinions and connect with others."
-      :features="[
-        {
-          icon: 'i-lucide-message-circle-question',
-          title: 'Daily Questions',
-          description:
-            'Answer a new thought-provoking question every day. Each question is designed to spark interesting conversations.',
-        },
-        {
-          icon: 'i-lucide-users',
-          title: 'Community Insights',
-          description:
-            'See how others answered and compare your perspective with the community. Discover different viewpoints.',
-        },
-        {
-          icon: 'i-lucide-trophy',
-          title: 'Track Your Progress',
-          description:
-            'Keep a history of all your answers and watch your participation grow over time.',
-        },
-        {
-          icon: 'i-lucide-shield-check',
-          title: 'Secure & Private',
-          description:
-            'Your account is protected with Firebase Authentication. Your data is safe and secure.',
-        },
-      ]"
-    />
-
-    <UPageSection>
-      <UPageCTA
-        title="Ready to share your thoughts?"
-        description="Join the conversation and answer today's question. Sign in to get started."
-        variant="subtle"
-        :links="[
-          {
-            label: 'Answer Today\'s Question',
-            to: '/question',
-            trailingIcon: 'i-lucide-arrow-right',
-            color: 'neutral',
-          },
-        ]"
+      <!-- Question Card -->
+      <QuestionCard
+        :question="question"
+        :options="options"
+        :selected-option="selectedOption"
+        :disabled="isSubmitted"
+        @select="handleSelect"
       />
-    </UPageSection>
+
+      <!-- Submit Button -->
+      <div v-if="!isSubmitted" class="flex justify-center">
+        <UButton :disabled="!selectedOption" size="xl" @click="handleSubmit">
+          Submit Answer
+        </UButton>
+      </div>
+
+      <!-- Result -->
+      <UCard v-if="isSubmitted" class="bg-primary/10">
+        <div class="text-center space-y-4">
+          <div>
+            <UIcon name="i-lucide-check-circle" class="text-primary text-5xl" />
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold">Answer Submitted!</h3>
+            <p class="text-muted mt-2">
+              You selected:
+              <span class="font-semibold text-primary">{{
+                getSelectedOptionText()
+              }}</span>
+            </p>
+          </div>
+          <UButton variant="subtle" @click="handleReset">
+            Answer Again
+          </UButton>
+        </div>
+      </UCard>
+    </div>
   </div>
 </template>
