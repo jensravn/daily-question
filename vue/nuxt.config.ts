@@ -2,8 +2,8 @@
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
-  modules: ["nuxt-vuefire"],
-
+  modules: ["@nuxt/ui", "nuxt-vuefire"],
+  css: ["~/assets/css/main.css"],
   ssr: false,
 
   vuefire: {

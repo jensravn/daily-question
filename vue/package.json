@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxt/ui": "4.1.0",
     "firebase": "12.5.0",
     "nuxt": "4.2.0",
     "nuxt-vuefire": "1.1.0",
